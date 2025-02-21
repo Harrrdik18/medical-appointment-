@@ -26,7 +26,6 @@ function BookingModal({ isOpen, onClose, doctorId, selectedSlot }) {
         ...formData
       });
 
-      // Emit socket event
       socket.emit('appointmentCreated', response.data);
       
       onClose();

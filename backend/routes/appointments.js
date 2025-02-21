@@ -5,7 +5,6 @@ const { parseISO, addMinutes, isWithinInterval } = require('date-fns');
 const Appointment = require('../models/Appointment');
 const Doctor = require('../models/Doctor');
 
-// Validation middleware
 const appointmentValidation = [
   body('doctorId').notEmpty().isMongoId(),
   body('date').notEmpty().isISO8601(),
@@ -15,12 +14,10 @@ const appointmentValidation = [
   body('notes').optional().trim()
 ];
 
-// Check for appointment conflicts
 const checkAvailability = async (doctorId, date, duration, excludeAppointmentId = null) => {
   const appointmentStart = parseISO(date);
   const appointmentEnd = addMinutes(appointmentStart, duration);
 
-  // Find any overlapping appointments
   const query = {
     doctorId,
     _id: { $ne: excludeAppointmentId }, // Exclude current appointment when updating
@@ -38,7 +35,6 @@ const checkAvailability = async (doctorId, date, duration, excludeAppointmentId 
   });
 };
 
-// Get all appointments
 router.get('/', async (req, res) => {
   try {
     const appointments = await Appointment.find().populate('doctorId');
@@ -48,7 +44,6 @@ router.get('/', async (req, res) => {
   }
 });
 
-// Get specific appointment
 router.get('/:id', async (req, res) => {
   try {
     const appointment = await Appointment.findById(req.params.id).populate('doctorId');
@@ -61,7 +56,6 @@ router.get('/:id', async (req, res) => {
   }
 });
 
-// Create appointment
 router.post('/', appointmentValidation, async (req, res) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
@@ -82,7 +76,6 @@ router.post('/', appointmentValidation, async (req, res) => {
     const appointment = new Appointment(req.body);
     const savedAppointment = await appointment.save();
     
-    // Emit socket event for real-time updates
     req.app.get('io').emit('appointmentCreated', savedAppointment);
     
     res.status(201).json(savedAppointment);
@@ -91,7 +84,6 @@ router.post('/', appointmentValidation, async (req, res) => {
   }
 });
 
-// Update appointment
 router.put('/:id', appointmentValidation, async (req, res) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
@@ -120,7 +112,6 @@ router.put('/:id', appointmentValidation, async (req, res) => {
       return res.status(404).json({ message: 'Appointment not found' });
     }
 
-    // Emit socket event for real-time updates
     req.app.get('io').emit('appointmentUpdated', appointment);
 
     res.json(appointment);
@@ -129,7 +120,6 @@ router.put('/:id', appointmentValidation, async (req, res) => {
   }
 });
 
-// Delete appointment
 router.delete('/:id', async (req, res) => {
   try {
     const appointment = await Appointment.findByIdAndDelete(req.params.id);
@@ -137,7 +127,6 @@ router.delete('/:id', async (req, res) => {
       return res.status(404).json({ message: 'Appointment not found' });
     }
 
-    // Emit socket event for real-time updates
     req.app.get('io').emit('appointmentDeleted', req.params.id);
 
     res.json({ message: 'Appointment deleted' });

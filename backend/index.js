@@ -6,7 +6,6 @@ const { createServer } = require('http');
 const { Server } = require('socket.io');
 const connectDB = require('./config/db');
 
-// Routes
 const doctorRoutes = require('./routes/doctors');
 const appointmentRoutes = require('./routes/appointments');
 
@@ -19,14 +18,11 @@ const io = new Server(httpServer, {
   }
 });
 
-// Middleware
 app.use(cors());
 app.use(express.json());
 
-// Database connection
 connectDB();
 
-// Socket.io connection
 io.on('connection', (socket) => {
   console.log('Client connected');
   
@@ -35,10 +31,8 @@ io.on('connection', (socket) => {
   });
 });
 
-// Make io accessible to our routes
 app.set('io', io);
 
-// Routes
 app.use('/api/doctors', doctorRoutes);
 app.use('/api/appointments', appointmentRoutes);
 

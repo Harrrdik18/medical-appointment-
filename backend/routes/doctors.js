@@ -4,7 +4,6 @@ const { parseISO, format, addMinutes, isWithinInterval } = require('date-fns');
 const Doctor = require('../models/Doctor');
 const Appointment = require('../models/Appointment');
 
-// Get all doctors
 router.get('/', async (req, res) => {
   try {
     const doctors = await Doctor.find();
@@ -14,7 +13,6 @@ router.get('/', async (req, res) => {
   }
 });
 
-// Get single doctor
 router.get('/:id', async (req, res) => {
   try {
     const doctor = await Doctor.findById(req.params.id);
@@ -27,7 +25,6 @@ router.get('/:id', async (req, res) => {
   }
 });
 
-// Get available slots for a specific doctor on a given date
 router.get('/:id/slots', async (req, res) => {
   try {
     const { id } = req.params;
@@ -46,7 +43,6 @@ router.get('/:id/slots', async (req, res) => {
     const startOfDay = new Date(queryDate.setHours(0, 0, 0, 0));
     const endOfDay = new Date(queryDate.setHours(23, 59, 59, 999));
 
-    // Get all appointments for the doctor on the specified date
     const appointments = await Appointment.find({
       doctorId: id,
       date: {
@@ -55,7 +51,6 @@ router.get('/:id/slots', async (req, res) => {
       }
     });
 
-    // Calculate available slots
     const [workingStartHour, workingStartMinute] = doctor.workingHours.start.split(':');
     const [workingEndHour, workingEndMinute] = doctor.workingHours.end.split(':');
 
@@ -74,12 +69,11 @@ router.get('/:id/slots', async (req, res) => {
     ));
 
     const availableSlots = [];
-    const slotDuration = 30; // 30 minutes slots
+    const slotDuration = 30; 
 
     while (currentSlot < endTime) {
       const slotEnd = addMinutes(currentSlot, slotDuration);
       
-      // Check if slot conflicts with any appointment
       const isSlotAvailable = !appointments.some(appointment => {
         const appointmentEnd = addMinutes(appointment.date, appointment.duration);
         return isWithinInterval(currentSlot, { start: appointment.date, end: appointmentEnd }) ||

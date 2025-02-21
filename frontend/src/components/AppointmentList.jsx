@@ -12,7 +12,6 @@ function AppointmentList() {
   useEffect(() => {
     fetchAppointments();
 
-    // Listen for real-time updates
     socket.on('appointmentCreated', handleAppointmentUpdate);
     socket.on('appointmentUpdated', handleAppointmentUpdate);
     socket.on('appointmentDeleted', handleAppointmentDelete);

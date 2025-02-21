@@ -5,7 +5,7 @@ const connectDB = require('../config/db');
 require('dotenv').config({ path: path.resolve(__dirname, '../.env') });
 
 console.log('Current directory:', __dirname);
-console.log('MONGODB_URI:', process.env.MONGODB_URI); // Log the MongoDB URI
+console.log('MONGODB_URI:', process.env.MONGODB_URI); 
 
 const doctors = [
   {
@@ -47,11 +47,9 @@ async function seedDoctors() {
     await connectDB();
     console.log('Connected to MongoDB');
 
-    // Clear existing doctors
     await Doctor.deleteMany({});
     console.log('Cleared existing doctors');
 
-    // Insert new doctors
     const result = await Doctor.insertMany(doctors);
     console.log('Added doctors:', result);
 

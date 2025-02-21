@@ -7,7 +7,6 @@ const connectDB = async () => {
     console.log(`MongoDB Connected to database: ${conn.connection.db.databaseName}`);
     console.log(`MongoDB Host: ${conn.connection.host}`);
     
-    // Test the connection by counting doctors
     const doctorCount = await conn.models.Doctor?.countDocuments() || 0;
     console.log(`Number of doctors in database: ${doctorCount}`);
     
@@ -15,7 +14,7 @@ const connectDB = async () => {
   } catch (error) {
     console.error('MongoDB connection error:', error.message);
     console.error('Full error:', error);
-    process.exit(1); // Exit process with failure
+    process.exit(1); 
   }
 };
 
