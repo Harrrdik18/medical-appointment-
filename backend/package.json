@@ -1,0 +1,28 @@
+{
+  "name": "medical-appointments-backend",
+  "version": "1.0.0",
+  "description": "Backend for medical appointments scheduling system",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js",
+    "test": "jest",
+    "seed": "node scripts/seedDoctors.js"
+  },
+  "dependencies": {
+    "axios": "^1.7.9",
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
+    "date-fns": "^4.1.0",
+    "dotenv": "^16.4.1",
+    "express": "^4.21.2",
+    "express-validator": "^7.2.1",
+    "mongo": "^0.1.0",
+    "mongoose": "^8.10.1",
+    "socket.io": "^4.7.4"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0",
+    "nodemon": "^3.1.9"
+  }
+}
