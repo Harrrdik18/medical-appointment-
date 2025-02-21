@@ -20,8 +20,8 @@ function AppointmentCalendar() {
     const fetchDoctorAndSlots = async () => {
       try {
         const [doctorResponse, slotsResponse] = await Promise.all([
-          axios.get(`http://localhost:3000/api/doctors/${id}`),
-          axios.get(`http://localhost:3000/api/doctors/${id}/slots`, {
+          axios.get(`https://medical-appointment-c94a.onrender.com/api/doctors/${id}`),
+          axios.get(`https://medical-appointment-c94a.onrender.com/api/doctors/${id}/slots`, {
             params: { date: format(selectedDate, 'yyyy-MM-dd') }
           })
         ]);

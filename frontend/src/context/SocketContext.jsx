@@ -8,7 +8,7 @@ export function useSocket() {
 }
 
 export function SocketProvider({ children }) {
-  const socket = io('http://localhost:3000');
+  const socket = io('https://medical-appointment-c94a.onrender.com');
 
   return (
     <SocketContext.Provider value={socket}>

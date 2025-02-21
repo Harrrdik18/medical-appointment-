@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { API_BASE_URL } from '../config/config';
 
 function DoctorList() {
   const [doctors, setDoctors] = useState([]);
@@ -12,7 +13,7 @@ function DoctorList() {
     const fetchDoctors = async () => {
       try {
         console.log('Fetching doctors...');
-        const response = await axios.get('http://localhost:3000/api/doctors');
+        const response = await axios.get(`${API_BASE_URL}/api/doctors`);
         console.log('Doctors response:', response.data);
         setDoctors(response.data);
         setLoading(false);

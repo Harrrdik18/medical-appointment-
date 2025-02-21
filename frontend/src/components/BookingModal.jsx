@@ -20,7 +20,7 @@ function BookingModal({ isOpen, onClose, doctorId, selectedSlot }) {
     setError(null);
 
     try {
-      const response = await axios.post('http://localhost:3000/api/appointments', {
+      const response = await axios.post('https://medical-appointment-c94a.onrender.com/api/appointments', {
         doctorId,
         date: selectedSlot,
         ...formData

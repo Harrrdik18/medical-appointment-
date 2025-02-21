@@ -26,7 +26,7 @@ function AppointmentList() {
 
   const fetchAppointments = async () => {
     try {
-      const response = await axios.get('http://localhost:3000/api/appointments');
+      const response = await axios.get('https://medical-appointment-c94a.onrender.com/api/appointments');
       setAppointments(response.data);
       setLoading(false);
     } catch (err) {
@@ -53,7 +53,7 @@ function AppointmentList() {
 
   const handleCancel = async (appointmentId) => {
     try {
-      await axios.delete(`http://localhost:3000/api/appointments/${appointmentId}`);
+      await axios.delete(`https://medical-appointment-c94a.onrender.com/api/appointments/${appointmentId}`);
       handleAppointmentDelete(appointmentId);
     } catch (err) {
       setError('Failed to cancel appointment');
